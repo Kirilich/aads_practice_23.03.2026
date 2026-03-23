@@ -20,7 +20,7 @@ bool test3()
 {
   using topit::Vector;
   constexpr size_t size = 3ull;
-  Vector< int > v(size);
+  Vector< int > v(size, 0);
   return v.getSize() == size;
 }
 
@@ -28,7 +28,7 @@ bool test4()
 {
   using topit::Vector;
   constexpr size_t size = 3ull;
-  Vector< int > v(size);
+  Vector< int > v(size, 0);
   try {
     v.at(0);
     return true;
@@ -42,7 +42,7 @@ bool test5()
 {
   using topit::Vector;
   constexpr size_t size = 3ull;
-  Vector< int > v(size);
+  Vector< int > v(size, 0);
   try {
     v.at(size + 1);
     return false;
@@ -59,7 +59,7 @@ bool test6()
 {
   using topit::Vector;
   constexpr size_t size = 3ull;
-  const Vector< int > v(size);
+  const Vector< int > v(size, 0);
   try {
     v.at(0);
     return true;
@@ -73,7 +73,7 @@ bool test7()
 {
   using topit::Vector;
   constexpr size_t size = 3ull;
-  const Vector< int > v(size);
+  const Vector< int > v(size, 0);
   try {
     v.at(size + 1);
     return false;
@@ -106,7 +106,7 @@ int main()
   size_t successes = 0, fails = 0;
   for (size_t i = 0; i < count; ++i) {
     bool case_result = tests[i].first();
-    successs += case_result;
+    successes += case_result;
     fails += !case_result;
     result = result && case_result;
     std::cout << case_result;

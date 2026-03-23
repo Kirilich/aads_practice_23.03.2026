@@ -7,7 +7,7 @@ namespace topit {
   struct Vector
   {
     Vector();
-    explicit Vector(size_t s);
+    Vector(size_t s, const T& v);
     ~Vector();
 
     Vector(const Vector<T>&) = delete;
@@ -23,22 +23,45 @@ namespace topit {
    private:
     T* data_;
     size_t size_, capacity_;
+    explicit Vector(size_t s);
   };
   template<class T>
   bool operator==(const Vector<T>& v1, const Vector<T>& v2);
 }
 
-
 template < class T >
-T& topit::Vector<T>::at(size_t id) noexcept
+const T& topit::Vector<T>::Vector(size_t size, const T& val):
+  Vector(size) //делегируем данные
 {
-  throw std::logic_error("bad id");
+  for (size_t i = 0; i < size; ++i) {
+    try { //они уже не нужны, потому что в начале написали vector(size) но я не буду удалять бе
+      data[i] = val;
+    }
+    catch (...) {
+      delete[] data_;
+      throw;
+    }
+    
+  }
 }
 
 template < class T >
-const T& topit::Vector<T>::at(size_t id) const noexcept
+T& topit::Vector<T>::at(size_t id)
 {
-  throw std::logic_error("bad id");
+  //return const_cast<T&>(static_cast<const Vector<T>*>(this)->at(id)); //если не охота дублировать код для const
+  if (id < getSize()) {
+    return data_[id];
+  }
+  throw std::out_of_range("bad id");
+}
+
+template < class T >
+const T& topit::Vector<T>::at(size_t id)
+{
+  if (id < getSize()) {
+    return data_[id];
+  }
+  throw std::out_of_range("bad id");
 }
 
 template < class T >
