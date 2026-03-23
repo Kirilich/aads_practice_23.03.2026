@@ -55,6 +55,37 @@ bool test5()
   }
 }
 
+bool test6()
+{
+  using topit::Vector;
+  constexpr size_t size = 3ull;
+  const Vector< int > v(size);
+  try {
+    v.at(0);
+    return true;
+  }
+  catch (...) {
+    return false;
+  }
+}
+
+bool test7()
+{
+  using topit::Vector;
+  constexpr size_t size = 3ull;
+  const Vector< int > v(size);
+  try {
+    v.at(size + 1);
+    return false;
+  }
+  catch (const std::output_of_range&) {
+    return true;
+  }
+  catch (...) {
+    return false;
+  }
+}
+
 int main()
 {
   using test_t = bool(*)();
@@ -64,7 +95,9 @@ int main()
     { test2, "Default constracted vector size is zero" },
     { test3, "Vector constracted with size has non-zero size" },
     { test4, "In range access does not generate exceptions" },
-    { test5, "Out of range access generates exceptions" }
+    { test5, "Out of range access generates exceptions" },
+    { test6, "const: In range access does not generate exceptions" },
+    { test7, "const: Out of range access generates exceptions" }
 
   };
   size_t count = sizeof(tests) / sizeof(case_t);
