@@ -97,5 +97,25 @@ size_t topit::Vector<T>::getSize() const noexcept
 {
   return size_;
 }
-
+template< class T >
+size_t topit::Vector<T>::getCapacity() const noexcept
+{
+  return capacity_;
+}
+template< class T >
+void topit::Vector<T>::push_back(const T& val)
+{
+  if (size_ == capacity_) {
+    size_t new_capacity = (capacity_ == 0) ? 1 : capacity_ * 2;
+    T* new_data = new T[new_capacity];
+    for (size_t i = 0; i < size_; ++i) {
+      new_data[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = new_data;
+    capacity_ = new_capacity;
+  }
+  data_[size_] = val;
+  ++size_;
+}
 #endif
