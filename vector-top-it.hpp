@@ -1,6 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
-
+#include <stdexcept>
 #include <cstddef>
 namespace topit {
   template < class T >
@@ -15,6 +15,9 @@ namespace topit {
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
+    size_t getCapacity() const noexcept;
+
+    void push_back(const T& val); //вот это и выше тоже сделать дома
 
     T& operator[](size_t id) noexcept;
     const T& operator[](size_t id) const noexcept;
@@ -26,16 +29,18 @@ namespace topit {
     explicit Vector(size_t s);
   };
   template<class T>
-  bool operator==(const Vector<T>& v1, const Vector<T>& v2);
+  bool operator==(const Vector<T>& lhs, const Vector<T>& rhs); //написать дома
+  template<class T>
+  bool operator!=(const Vector<T>& lhs, const Vector<T>& rhs);
 }
 
 template < class T >
-const T& topit::Vector<T>::Vector(size_t size, const T& val):
+topit::Vector<T>::Vector(size_t size, const T& val):
   Vector(size) //делегируем данные
 {
   for (size_t i = 0; i < size; ++i) {
     try { //они уже не нужны, потому что в начале написали vector(size) но я не буду удалять бе
-      data[i] = val;
+      data_[i] = val;
     }
     catch (...) {
       delete[] data_;
@@ -56,7 +61,7 @@ T& topit::Vector<T>::at(size_t id)
 }
 
 template < class T >
-const T& topit::Vector<T>::at(size_t id)
+const T& topit::Vector<T>::at(size_t id) const
 {
   if (id < getSize()) {
     return data_[id];

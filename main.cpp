@@ -47,7 +47,7 @@ bool test5()
     v.at(size + 1);
     return false;
   }
-  catch (const std::output_of_range&) {
+  catch (const std::out_of_range&) {
     return true;
   }
   catch (...) {
@@ -78,7 +78,7 @@ bool test7()
     v.at(size + 1);
     return false;
   }
-  catch (const std::output_of_range&) {
+  catch (const std::out_of_range&) {
     return true;
   }
   catch (...) {
@@ -113,7 +113,7 @@ int main()
     std::cout << ": ";
     std::cout << tests[i].second << "\n";
   }
-  std::cout << 'SUMMARY\n';
+  std::cout << "SUMMARY\n";
   std::cout << result << ": TEST RESULTS\n";
   std::cout << fails << ":failed tests\n";
   std::cout << successes << ":passed tests\n";
