@@ -86,6 +86,36 @@ bool test7()
   }
 }
 
+bool test8()
+{
+  using topit::Vector;
+  const Vector< int > v(2, 0);
+  Vector< int > yav = v; //конструктор копирования auto & yav = v; указание компилятору что нужен типа но связать по ссылке и будет просто ссылка на тот же самый вектор и сравнение одних и тех же векторов.
+  return yav == v;
+}
+
+bool test9()
+{
+  using topit::Vector;
+  Vector< int > v;
+  Vector< int > yav(2, 0);
+  bool res = v != yav;
+  v = yav; //конструктор присваивания
+  return res && v == yav;
+}
+
+bool test10()
+{
+  using topit::Vector;
+  Vector< int > v(2, 0);
+  Vector< int > yav(3, 1);
+  Vector< int > cpy_v(v);
+  Vector< int > cpy_yav(yav);
+  v.swap(yav);
+  return cpy_v == yav && cpy_yav == v;
+}
+// вааай, доделай тесты для домашка getCapacity, != == []
+
 int main()
 {
   using test_t = bool(*)();
@@ -97,7 +127,10 @@ int main()
     { test4, "In range access does not generate exceptions" },
     { test5, "Out of range access generates exceptions" },
     { test6, "const: In range access does not generate exceptions" },
-    { test7, "const: Out of range access generates exceptions" }
+    { test7, "const: Out of range access generates exceptions" },
+    { test8, "copy constructor" },
+    { test9, "copy assigment operator" },
+    { test10, "swap" }
 
   };
   size_t count = sizeof(tests) / sizeof(case_t);
