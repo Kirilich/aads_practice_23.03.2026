@@ -114,6 +114,25 @@ bool test10()
   v.swap(yav);
   return cpy_v == yav && cpy_yav == v;
 }
+
+bool test11()
+{
+  using topit::Vector;
+  Vector< int > v(2, 0);
+  Vector< int > cpy_v(v);
+  Vector< int > yav = std::move(v);
+  return yav == cpy_v;
+}
+
+bool test12()
+{
+  using topit::Vector;
+  Vector< int > v(2, 0);
+  Vector< int > cpy(v);
+  Vector< int > yav;
+  yav == std::move(v);
+  return yav == cpy;
+}
 // вааай, доделай тесты для домашка getCapacity, != == []
 
 int main()
@@ -130,7 +149,9 @@ int main()
     { test7, "const: Out of range access generates exceptions" },
     { test8, "copy constructor" },
     { test9, "copy assigment operator" },
-    { test10, "swap" }
+    { test10, "swap for two vectors" },
+    { test11, "Move constructor" },
+    { test12, "Move assigment operator" }
 
   };
   size_t count = sizeof(tests) / sizeof(case_t);

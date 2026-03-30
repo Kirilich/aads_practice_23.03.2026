@@ -40,6 +40,24 @@ namespace topit {
 }
 
 template < class T >
+topit::Vector<T>::Vector(Vector<T>&& rhs) noexcept:
+  data_(rhs.data_),
+  size_(rhs.size_),
+  capacity_(rhs.capacity_)
+{
+  rhs.data_ = nullptr;
+}
+
+template < class T >
+topit::Vector<T>& topit::Vector<T>::operator=(Vector<T>&& rhs) noexcept
+{
+  Vector<T> cpy(std::move(rhs)); //без move будет думтаь что lvalue
+  swap(cpy);
+  return *this;
+}
+
+
+template < class T >
 topit::Vector<T>::Vector(const Vector<T>& rhs) :
   Vector(rhs.getSize())
 {
